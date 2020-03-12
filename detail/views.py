@@ -126,7 +126,7 @@ def detail(request, id_car):
     return render(request, 'detail/detail.html', context=context)
 
 @login_required
-@permission_required('managecar.add_rent')
+@permission_required('managecar.view_rent')
 def confirm(request, id_rent):
     context={}
     rent_order = Rent.objects.get(pk=id_rent)
@@ -134,7 +134,7 @@ def confirm(request, id_rent):
     return render(request, 'detail/confirm.html', context=context)
 
 @login_required
-@permission_required('managecar.view_rent')
+@permission_required('managecar.add_rent')
 def reservation_list(request):
     context = {}
     user_id = request.user.id

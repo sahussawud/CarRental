@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CarRental - เช่ารถออนไลน์</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.datetimepicker.css' %}">
 
@@ -154,8 +154,8 @@
                     <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
                     {% endif %}
 
-                    {% if perms.managecar.view_rent %}
-                       <a class="dropdown-item" href="{% url 'reservation_list' %}">Reservation</a>
+                    {% if perms.managecar.add_rent %}
+                       <a class="dropdown-item" href="{% url 'reservation_list' %}">My Reservation</a>
                     {% endif %}
                     
                     <a class="dropdown-item" href="{% url 'ChangePassword' %}">Reset Password</a>

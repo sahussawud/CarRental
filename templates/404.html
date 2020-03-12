@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="hero is-fullheight is-info">
+    <div class="hero-head">
+      <div class="container">
+        <div class="tabs is-centered">
+          <ul>
+            <li>
+              <a href="{% url 'homepage'%}">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                <span style="padding-left: 10px;">Back to Main Page</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h3 class="title is-1">
+          <a href="">
+            <i class="fa fa-map-signs" aria-hidden="true"></i> <strong>404</strong>
+          </a>
+        </h3>
+        <h4 class="subtitle is-4">
+          the page you are looking for is not found
+        </h4>
+      </div>
+    </div>
+  
+    <div class="hero-foot">
+      <div class="container">
+        <div class="tabs is-centered">
+          <ul>
+            <li><a href="{% url 'homepage' %}">carrental.co.th</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

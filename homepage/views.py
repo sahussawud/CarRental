@@ -64,3 +64,8 @@ def car_detail(request, id_car):
     car = Car.objects.get(pk=id_car)
     context['car'] = car
     return render(request, 'homepage/car_detail.html',context=context)
+
+def handler404(request, exception, template_name="404.html"):
+    response = render_to_response(template_name)
+    response.status_code = 404
+    return response
