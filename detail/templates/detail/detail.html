@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    {% if promo_error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="z-index: -1;">
+        {{ promo_error }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% elif promo_success %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="z-index: -1;">
+        {{ promo_success }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
+    {% if perms.managecar.add_rent %}
+    <div class="row d-flex justify-content-center">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row"><img src="/media/{{ car.pic_url }}" alt="Responsive image" style="width: 80%;"
+                        class="mt-4"></div>
+                <div class="row">
+                    <table class="table table-borderless">
+                        <tbody>
+                    <tr>
+
+                            <h1>{{ car.name }}</h1>
+ 
+                    </tr>
+                    </tbody>
+                    </table>
+                    <div class="col">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>รถปี</td>
+                                    <td>{{car.years}}</td>
+    
+                                </tr>
+                                <tr>
+                                    <td>สี</td>
+                                    <td>{{car.color}}</td>
+                                </tr>
+                                <tr>
+                                    <td>ประเภทเกียร์</td>
+                                    <td>{{ car.get_type_gear_display }}</td>
+                                </tr>
+                                <tr>
+                                    <td>รถประเภท</td>
+                                    <td>{{ car.get_category_display}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="col">
+                        <table class="table table-borderless">
+                            <tbody>
+                              
+                                <tr>
+                                    <td>จำนวนที่นั่ง</td>
+                                    <td>{{ car.number_seat}}</td>
+                                </tr>
+                                <tr>
+                                    <td>จำนวนประตู</td>
+                                    <td>{{ car.number_door}}</td>
+                                </tr>
+                                <tr>
+                                    <td>ราคาต่อวัน</td>
+                                    <td>{{ car.price}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+            
+            <form action="{% url 'booking' car.id %}" method="post">
+
+                <div class="col-lg-6 mt-auto">
+                    <div class="card" style="width: 30rem;margin: 5%;">
+                        <div class="card-body">
+
+
+                            {% csrf_token %}
+                            <h4 class="card-title">เเบบฟอร์มการจองรถ</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">สำหรับสมาชิก</h6>
+                            <p class="card-text">
+
+
+                                <div class="row text-center">
+
+                                    <div class="col">
+                                        <p>เลือก วัน/เวลา รับรถ</p>
+                                        <input type="text" id='picker' name="start_date" class="form-control"
+                                            value="{{ start_date }}"  readonly="readonly">
+
+                                    </div>
+                                    <div class="col">
+                                        <p>เลือก วัน/เวลา คืนรถ</p>
+                                        <input type="text" id='picker1' name="end_date" class="form-control"
+                                            value="{{ end_date }}" onchange="this.form.submit()"  readonly="readonly">
+                                    </div>
+                                </div>
+                            </p>
+                            <br>
+                            <div class="row">
+                                <table class='table table-stripe'>
+                                    {% if amount_day and not not_accept %}
+                                    <tr>
+                                        <td>ค่าเช่าสำหรับ {{ amount_day }} วัน</td>
+                                        <td>{{ price }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td>ค่ารับ-ส่ง</td>
+                                        <td>ฟรี!</td>
+                                    </tr>
+                                    {% if promo_cost and not not_accept %}
+                                    <tr>
+                                        <td>ค่าส่วนลด</td>
+                                        <td>-{{ promo_cost }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if amount_day and not not_accept %}
+                                    <tr>
+                                        <td>ราคารวม</td>
+                                        <td>ฺ฿{{ price }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    <tr class="table-warning">
+                                        <td>
+                                            <p>ค่ามัดจำเพื่อประกันความเสียหาย</p>
+                                            <p style="font-size: x-small;">ชำระเมื่อรับรถ เเละ
+                                                ได้รับคืนเมื่อสินสุดการเช่า
+                                            </p>
+                                        </td>
+                                        <td>฿3,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>Promotion Code</h6>
+                                            <p style="font-size: x-small;">ใส่โค้ดเพื่อรับส่วนลด</p>
+                                        </td>
+                                        <td><input type="text" id='promotion_code' name="promotion_code"
+                                                class="form-control" value="{{ promotion }}"
+                                                onchange="this.form.submit()">
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td colspan="2">
+                                            <!-- <button type="button" class="btn btn-secondary btn-lg btn-block" name='is_submit' value="submited">เลือกรถคันนี้</button> -->
+                                            <button type='submit' name='is_submit' value='submited'
+                                                class="btn btn-primary btn-lg btn-block" {% if not_accept %} disabled {% endif %}>เลือกรถคันนี้</button>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+            <div class="row ">
+                <div class="col-6">
+                        <img src="/media/{{ car.pic_url }}" alt="Responsive image" style="width: 100%;" class="mt-5 mb-4">
+                        
+                        <a type="button" class="btn btn-outline-success  d-flex justify-content-center" href="{% url 'booking' id_car=car.id %}">Sign In เพิ่อจองรถคันนี้</a>
+                </div>
+                <div class="col-6">
+                    <table class="table table-borderless mt-4">
+                        <tbody>
+                            <tr>
+                                <td colspan="2"><h1>{{car.name }}</h1></td>
+        
+                            </tr>
+                            <tr>
+                                <td>รถปี</td>
+                                <td>{{car.years}}</td>
+        
+                            </tr>
+                            <tr>
+                                <td>สี</td>
+                                <td>{{car.color}}</td>
+                            </tr>
+                            <tr>
+                                <td>ประเภทเกียร์</td>
+                                <td>{{ car.get_type_gear_display }}</td>
+                            </tr>
+                            <tr>
+                                <td>รถประเภท</td>
+                                <td>{{ car.get_category_display}}</td>
+                            </tr>
+                            <tr>
+                                <td>จำนวนที่นั่ง</td>
+                                <td>{{ car.number_seat}}</td>
+                            </tr>
+                            <tr>
+                                <td>จำนวนประตู</td>
+                                <td>{{ car.number_door}}</td>
+                            </tr>
+                            <tr>
+                                <td>ราคาต่อวัน</td>
+                                <td>{{ car.price}}</td>
+                            </tr>
+                        </tbody>
+                      </table>
+
+            {% endif %}
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

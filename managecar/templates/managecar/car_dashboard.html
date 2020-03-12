@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'sidebar.html' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="container">
+                    <h1>Car Inventory</h1>
+                        <form action="{% url 'homepage'%}" method="POST">
+                            {% csrf_token %}
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button type="button" class="btn btn-info" selected>All</button>
+                                <button type="button" class="btn btn-success">Available</button>
+                                <button type="button" class="btn btn-danger">Not Available</button>
+                                <button type="button" class="btn btn-warning">Hidden</button>
+                              </div>
+                        </form>
+                    <hr>
+                    
+                        
+                    {%if available %}
+                        <h2>Available</h2>
+                        <hr>
+                        <div class="row">
+                        
+                        {% for car in available %}
+                        <div class="col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <img src="/media/{{ car.pic_url }}" class="card-img-top" alt="..." style="height: 40%;">
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ car.name }}</h5>
+                                        <p class="card-text">{{ car.get_category_display }}</p>
+                                        
+                                        <br>
+                                        <div class="btn-group btn-group-sm " role="group" aria-label="...">
+                                            <a href="{% url 'car_detail' car.id %}" type="button" class="btn btn-success btn-sm"
+                                                style="margin: 4px;">view</a>
+                                                <a href="{% url 'change_car' id_car=car.id %}" type="button"
+                                                class="btn btn-danger btn-sm" style="margin: 4px;">edit</a>
+                                            <a href="{% url 'car_hide' car.id %}" type="button" class="btn btn-warning btn-sm" style="margin: 4px;">  
+                                                hide
+                                            </a>
+                                        </div>
+    
+                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                       
+                    </div> 
+                    {% endif %}
+                    
+                    {%if not_available %}
+                        <h2>Not Available</h2>
+                        <hr>
+                        <div class="row">
+                        
+                        {% for car in not_available %}
+                        <div class="col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <img src="/media/{{ car.pic_url }}" class="card-img-top" alt="..." style="height: 40%;">
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ car.name }}</h5>
+                                        <p class="card-text">{{ car.get_category_display }}</p>
+                                        
+                                        <br>
+                                        <div class="btn-group btn-group-sm " role="group" aria-label="...">
+                                            <a href="{% url 'car_detail' car.id %}" type="button" class="btn btn-success btn-sm"
+                                                style="margin: 4px;">view</a>
+                                                <a href="{% url 'change_car' id_car=car.id %}" type="button"
+                                                class="btn btn-danger btn-sm" style="margin: 4px;">edit</a>
+                                            <a href="{% url 'car_hide' car.id %}" type="button" class="btn btn-warning btn-sm" style="margin: 4px;">  
+                                                hide
+                                            </a>
+                                        </div>
+    
+                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                       
+                    </div> 
+                    {% endif %}
+
+                    {%if hidden %}
+                    <h2>Hidden</h2>
+                    <hr>
+                    <div class="row">
+                    
+                    {% for car in hidden %}
+                    <div class="col-lg-3 mb-4">
+                        <div class="card h-100">
+                            <img src="/media/{{ car.pic_url }}" class="card-img-top" alt="..." style="height: 40%;">
+                            <div class="card-body">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ car.name }}</h5>
+                                    <p class="card-text">{{ car.get_category_display }}</p>
+                                    
+                                    <br>
+                                    <div class="btn-group btn-group-sm " role="group" aria-label="...">
+                                        <a href="{% url 'car_detail' car.id %}" type="button" class="btn btn-success btn-sm"
+                                                style="margin: 4px;">view</a>
+                                                <a href="{% url 'change_car' id_car=car.id %}" type="button"
+                                                class="btn btn-danger btn-sm" style="margin: 4px;">edit</a>
+                                        <a href="{% url 'car_unhide' car.id %}" type="button" class="btn btn-dark btn-sm" style="margin: 4px;">  
+                                                unhide
+                                        </a>
+                                    </div>
+
+                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                   
+                </div> 
+                {% endif %}
+                   
+                    
+
+                
+            </main>
+        </div>
+
+    </div>
+    <!-- Modal -->
+
+   
+           
+</body>
+
+</html>
+
+
+
+{% endblock %}
+
+{% block footer %}
+Footer of Login page!!!
+{% endblock %}

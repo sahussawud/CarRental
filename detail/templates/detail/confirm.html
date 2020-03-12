@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> การจองสำเร็จ!</strong> เช็ครายละเอียด วันจอง-รุ่นรถ ทางผู้ดูเเลจะยืนยันการจองภายใน 12 ชั่วโมงนับเเต่ทำการจอง
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <img src="/media/{{ Rent.car_id.pic_url }}" alt="Responsive image" class="img-fluid">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-dark">
+                       
+                        <tr>
+                            <td>ปีจดทะเบียน</td>
+                            <td>{{ Rent.car_id.years }}</td>
+                        </tr>
+                        <tr>
+                            <td>เกียร์</td>
+                            <td>{{ Rent.car_id.get_type_gear_display }}</td>
+                        </tr>
+                        <tr>
+                            <td>ประเภทรถ</td>
+                            <td>{{ Rent.car_id.get_category_display }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table table-dark">
+                        <tr>
+                            <td>สี</td>
+                            <td>{{ Rent.car_id.color }}</td>
+                        </tr>
+                        <tr>
+                            <td>จำนวนที่นั่ง</td>
+                            <td>{{ Rent.car_id.number_seat }}</td>
+                        </tr>
+                        <tr>
+                            <td>จำนวนประตู</td>
+                            <td>{{ Rent.car_id.number_door }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-auto">
+           
+            <div class="row">
+                <h1> สถานะการจอง : {{ Rent.get_status_display }}</h1>
+            </div>
+            <div class="row text-center">
+                
+                <div class="col">
+                        <p>เลือก วัน/เวลา รับรถ <br>{{Rent.start_date}}</p>
+
+                </div>
+                <div class="col">
+                    <p>เลือก วัน/เวลา คืนรถ <br> {{Rent.end_date}} </p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <table class='table table-stripe'>
+                    <tr>
+                        <td>ชื่อผู้จอง</td>
+                        <td>{{ Rent.customer_id.first_name }} {{ Rent.customer_id.last_name }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>เวลาทำการจอง</td>
+                        <td>{{ Rent.create_time }}</td>
+                    </tr>
+                    <tr>
+                        <td>ค่าส่วนลด</td>
+                        <td> โปรโมชั่น{{Rent.promotion.name}} </td>
+                    </tr>
+                    <tr>
+                        
+                        <td>ราคารวม</td>
+                        <td>฿{{ Rent.total_price }}</td>
+                    </tr>
+                    
+                    <tr class="table-warning">
+                        <td>
+                            <p>ค่ามัดจำเพื่อประกันความเสียหาย</p>
+                            <p style="font-size: x-small;">ชำระเมื่อรับรถ เเละ ได้รับคืนเมื่อสินสุดการเช่า</p>
+                        </td>
+                        <td>฿3,000</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a type="submit" class="btn btn-secondary btn-lg btn-block" href="{% url 'homepage' %}">กลับสู่หน้าหลัก</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block footer %}
+Footer of Login page!!!
+{% endblock %}

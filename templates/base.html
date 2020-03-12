@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.datetimepicker.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/signincss.css'%}">
+
+    
+    <style>
+        /* GLOBAL STYLES
+-------------------------------------------------- */
+        /* Padding below the footer and lighter body text */
+        @font-face {
+                font-family: Prompt;
+                src: url('{% static 'Prompt/Prompt-Regular.ttf' %}');
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            padding-bottom: 3rem;
+            color: #5a5a5a;
+        }
+
+
+        /* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+        /* Carousel base class */
+        .carousel {
+            margin-bottom: 4rem;
+        }
+
+        /* Since positioning the image, we need to help out the caption */
+        .carousel-caption {
+            bottom: 3rem;
+            z-index: 10;
+        }
+
+        /* Declare heights because of positioning of img element */
+        .carousel-item {
+            height: 32rem;
+            background-color: #777;
+        }
+
+        .carousel-item>img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            height: 32rem;
+        }
+
+
+        /* MARKETING CONTENT
+-------------------------------------------------- */
+
+        /* Center align the text within the three columns below the carousel */
+        .marketing .col-lg-4 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .marketing h2 {
+            font-weight: 400;
+        }
+
+        .marketing .col-lg-4 p {
+            margin-right: .75rem;
+            margin-left: .75rem;
+        }
+
+
+        /* Featurettes
+------------------------- */
+
+        .featurette-divider {
+            margin: 5rem 0;
+            /* Space out the Bootstrap <hr> more */
+        }
+
+        /* Thin out the marketing headings */
+        .featurette-heading {
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -.05rem;
+        }
+
+
+        /* RESPONSIVE CSS
+-------------------------------------------------- */
+
+        @media (min-width: 40em) {
+
+            /* Bump up size of carousel content */
+            .carousel-caption p {
+                margin-bottom: 1.25rem;
+                font-size: 1.25rem;
+                line-height: 1.4;
+            }
+
+            .featurette-heading {
+                font-size: 50px;
+            }
+        }
+
+        @media (min-width: 62em) {
+            .featurette-heading {
+                margin-top: 7rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'homepage' %}">
+                <img src="{% static 'base_component/logo.png'%}" width="30" height="30" class="d-inline-block align-top"
+                    alt="">
+                Car Rental
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <!-- <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'reservation_list' %}">Reservation<span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                    </li> -->
+                </ul>
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Welcome {{user.get_username}}
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {% if perms.managecar.change_rent %} 
+                    <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                    {% endif %}
+
+                    {% if perms.managecar.view_rent %}
+                       <a class="dropdown-item" href="{% url 'reservation_list' %}">Reservation</a>
+                    {% endif %}
+                    
+                    <a class="dropdown-item" href="{% url 'ChangePassword' %}">Reset Password</a>
+                    <a class="dropdown-item" href="{% url 'my_logout' %}">logout</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="form-inline my-2 my-lg-0 ">
+                <a href="{% url 'my_login' %}"><button class="btn btn-outline-success my-2 my-sm-0 mx-2" 
+                        type="button" >login</button></a>
+                <a href="{% url 'createAccount' %}"><button class="btn btn-outline-success my-2 my-sm-0 mx-2"
+                        type="button">Create Account</button></a>
+            </div>
+            {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">
+                {% block footer %}
+                {% endblock %}
+            </span>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.datetimepicker.full.js' %}" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function () {
+            'use strict';
+
+            jQuery('#picker, #picker1').datetimepicker();
+        });
+    </script>
+
+</body>
+
+</html>

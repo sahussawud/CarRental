@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                
+
+                <h2>Reservation Summary</h2>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>วันที่จอง</th>
+                                <th>รถ</th>
+                                <th>สถานะ</th>
+                                <th>ราคา</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+ 
+                            {% for rent in Rents%}
+                            <tr>
+                                <td>{{rent.id}}</td>
+                                <td>{{rent.create_time}}</td>
+                                <td>{{rent.car_id.name}} {{rent.car_id.color}}</td>
+
+                                <td>
+                                    <button type="button" {% if rent.status == 'Pending' %}
+                                        class="btn btn-warning btn-sm" {% elif  rent.status == 'Approved' %}
+                                        class="btn btn-success btn-sm" {% elif  rent.status == 'Picked' %}
+                                        class="btn btn-info btn-sm" {% elif  rent.status == 'Returned' %}
+                                        class="btn btn-secondary btn-sm" {% elif  rent.status == 'Denied' %}
+                                        class="btn btn-danger btn-sm" {% endif %} disabled>{{rent.status}}</button>
+                                </td>
+
+                                <td>฿{{rent.total_price}}</td>
+                                <td></td>
+                                <td>
+
+                                        <a type="button" class="btn btn-info  btn-sm mr-2" data-toggle="modal"
+                                            data-target="#exampleModalCenter{{rent.id}}" style="color: aliceblue;">
+                                            details
+                                        </a>
+
+                                        <div class="modal fade" id="exampleModalCenter{{rent.id}}" tabindex="-1"
+                                            role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">การจองเลขที่
+                                                            {{ rent.id }} : {{ rent.create_time}} <span 
+                                                                {% if rent.status == 'Pending' %}
+                                                                class="badge badge-warning"
+                                                                {% elif  rent.status == 'Approved' %}
+                                                                class="badge badge-success"
+                                                                {% elif  rent.status == 'Picked' %}
+                                                                class="badge badge-info"
+                                                                {% elif  rent.status == 'Returned' %}
+                                                                class="badge badge-secondary"
+                                                                {% elif  rent.status == 'Denied' %}
+                                                                class="badge badge-danger" {% endif %}
+                                                                disabled>{{rent.get_status_display}}</span></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <img src="/media/{{ rent.car_id.pic_url }}"
+                                                                            alt="" srcset="" style="max-width:100%;">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table class="table table-borderless">
+                                                                        
+                                                                              <tr>
+                                                                                <td>ข้อมูลผู้เช่า</td>
+                                                                                <td>{{ rent.customer_id.first_name }} {{ rent.customer_id.last_name }}</td>
+                                                                              
+                                                                              </tr>
+                                                                              <tr>
+                                                                                <td>เริ่มต้น</td>
+                                                                                <td>{{ rent.start_date }}</td>
+                                                                                
+                                                                              </tr>
+                                                                              <tr>
+                                                                                <td>วันที่สิ้นสุด</td>
+                                                                                <td>{{rent.end_date }}</td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                                <td>ราคารวม</td>
+                                                                                <td>฿{{rent.total_price }}</td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                                <td>ข้อมูลรถ</td>
+                                                                                <td>{{ rent.car_id.name }}({{rent.car_id.years}}) สี {{rent.car_id.color}}
+                                                                                    {{ rent.car_id.get_type_gear_display }} ประเภท {{ rent.car_id.get_category_display}}
+                                                                                </td>
+                                                                              </tr>
+                                                                            
+                                                                          </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <a href='{% url "confirm" id_rent=rent.id %}' type="button" class="btn btn-success"
+                                                             >More Details</a>
+    
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">ยังไม่มีรายการจอง</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+    </div>
+    <!-- Modal -->
+
+
+   
+</body>
+
+
+
+{% endblock %}
+
+{% block footer %}
+Footer of Login page!!!
+{% endblock %}
