@@ -23,6 +23,11 @@ brew install python
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
+#### Automate step (All dependencies library will install)
+```
+pip install -r requirements.txt
+```
+#### Manual step
 
 Django install
 
