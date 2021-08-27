@@ -1,4 +1,4 @@
-# CarRental-webpro2019
+# CarRental
 
 Car rental Website with Django Web Framework
 
