@@ -1,54 +1,30 @@
 ```
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
+*.pyc
+*.pyo
+*.pyd
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual Environment
-venv/
-ENV/
-env.bak/
-.venv/
 env/
-ENV/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-*.log
-
-# Environment variables
+venv/
+.venv/
+.ENV
+.ENV.local
 .env
 .env.local
-*.env.*
-
-# Coverage
+.env.*
+.python-version
+.pytest_cache/
+.mypy_cache/
 .coverage
+coverage/
 htmlcov/
-.coverage.*
-.coverage.xml
-*.cover
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
 
 # Distribution / packaging
 .Python
@@ -64,23 +40,18 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Pytest
-.pytest_cache/
-pytestdebug.log
-
-# MyPy
-.mypy_cache/
-
-# Temporary files
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 *.tmp
-*~
+
+# OS
 .DS_Store
 Thumbs.db
 ```
